@@ -1,6 +1,34 @@
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e)  => {
+    e.preventDefault();
+    try {
+      await login(email, password);
+      toast.success('Login Successful');
+       navigate('/');
+    }
+    catch (error) {
+           toast.error("Invalid user name or password!");
+         }
+  };
+
+  const handleGoogleLoginSuccess = (credentialResponse) => {
+    console.log('Google Login Success:', credentialResponse);
+    toast.success('Login Successful with Google!');
+    navigate('/');
+
+    
+  };
+
+  const handleGoogleLoginError = () => {
+    console.log('Google Login Failed');
+    toast.error('Google Login Failed');
+  };
   return (
     <body style={{overflow:"hidden"}}> 
     <div className="login">
