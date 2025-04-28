@@ -1,34 +1,52 @@
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  // State for storing email and password input fields
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
+  // Hook from react-router-dom to navigate between pages
   const navigate = useNavigate();
 
+  // Function to handle form submission (Login button)
   const handleSubmit = async (e)  => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent the default form submission behavior (which reloads the page)
     try {
+      // Try to login using the provided email and password
       await login(email, password);
+      
+      // If successful, show success toast notification
       toast.success('Login Successful');
-       navigate('/');
+      
+      // Navigate to the home page ("/") after successful login
+      navigate('/');
     }
     catch (error) {
-           toast.error("Invalid user name or password!");
-         }
+      // If login fails, show an error toast notification
+      toast.error("Invalid user name or password!");
+    }
   };
 
+  // Function to handle successful login with Google OAuth
   const handleGoogleLoginSuccess = (credentialResponse) => {
     console.log('Google Login Success:', credentialResponse);
-    toast.success('Login Successful with Google!');
-    navigate('/');
-
     
+    // Show success notification
+    toast.success('Login Successful with Google!');
+    
+    // Navigate to the home page ("/") after successful Google login
+    navigate('/');
   };
 
+  // Function to handle failed login with Google OAuth
   const handleGoogleLoginError = () => {
     console.log('Google Login Failed');
+    
+    // Show error notification
     toast.error('Google Login Failed');
   };
+};
+
   return (
     <body style={{overflow:"hidden"}}> 
     <div className="login">
