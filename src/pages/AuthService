@@ -1,25 +1,37 @@
-// src/services/authService.js
+// Import axios for making HTTP requests
 import axios from 'axios';
 
+// Base URL for the backend API (pointing to AccountController)
 const API_URL = 'https://localhost:7258/api/Account';
 
+// Function to login user
 export const login = async (email, password) => {
+  // Send POST request to /Login endpoint with email and password
   const response = await axios.post(API_URL + '/Login', { email, password });
+
+  // Extract token from response data
   const { token } = response.data;
+
+  // Save token into local storage for future authenticated requests
   localStorage.setItem('token', token);
+
+  // Return the full response data (optional: you can just return token if needed)
   return response.data;
 };
 
+// Function to register new user
 export const register = async (email, password, confirmPassword) => {
-  return await axios.post(API_URL + '/Register', 
+  // Send POST request to /Register endpoint with the provided user data
+  return await axios.post(
+    API_URL + '/Register', 
     {
-      Email: email,
-      Password: password,
-      ConfirmPassword: confirmPassword
+      Email: email,            // Pass email as required by backend model
+      Password: password,      // Pass password
+      ConfirmPassword: confirmPassword // Pass confirm password
     },
     {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json' // Set content type to JSON
       }
     }
   );
