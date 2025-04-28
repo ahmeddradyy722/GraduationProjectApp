@@ -1,43 +1,63 @@
 import { Link } from "react-router-dom";
 
 const Sign = () => {
-const navigate=useNavigate();
+  // Hook from react-router-dom to navigate between pages
+  const navigate = useNavigate();
 
+  // State variables to manage form inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  // Function to handle the registration process
   const handleRegister = async () => {
+    // Check if password and confirm password match
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
+      toast.error('Passwords do not match'); // Show error message if they don't match
+      return; // Stop execution if passwords don't match
     }
 
     try {
+      // Call the register service function to create a new user
       const response = await register(email, password, confirmPassword);
       console.log('Registration Response:', response);
+
+      // Show success toast notification
       toast.success('Registration Successful');
+
+      // Navigate to login page after 2 seconds
       setTimeout(() => {
         navigate('/login');
       }, 2000);
     }
     catch (error) {
+      // If registration fails, show error toast notification
       toast.error("Registration Failed!");
     }
   };
+
+  // Function to handle successful Google login
   const handleGoogleLoginSuccess = (credentialResponse) => {
     console.log('Google Login Success:', credentialResponse);
+
+    // Show success toast notification
     toast.success('Login Successful with Google!');
+
+    // Navigate to login page after 2 seconds
     setTimeout(() => {
       navigate('/login');
     }, 2000);
-    // تقدر تبعت التوكن للباك إند هنا لو حابب
+
+    // You can send the Google credential token to your backend here if needed
   };
 
+  // Function to handle Google login failure
   const handleGoogleLoginError = () => {
     console.log('Google Login Failed');
-    toast.error('Google Login Failed');
+    toast.error('Google Login Failed'); // Show error toast notification
   };
+};
+
   
     
     return (
