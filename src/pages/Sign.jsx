@@ -1,6 +1,45 @@
 import { Link } from "react-router-dom";
 
 const Sign = () => {
+const navigate=useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await register(email, password, confirmPassword);
+      console.log('Registration Response:', response);
+      toast.success('Registration Successful');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    }
+    catch (error) {
+      toast.error("Registration Failed!");
+    }
+  };
+  const handleGoogleLoginSuccess = (credentialResponse) => {
+    console.log('Google Login Success:', credentialResponse);
+    toast.success('Login Successful with Google!');
+    setTimeout(() => {
+      navigate('/login');
+    }, 2000);
+    // تقدر تبعت التوكن للباك إند هنا لو حابب
+  };
+
+  const handleGoogleLoginError = () => {
+    console.log('Google Login Failed');
+    toast.error('Google Login Failed');
+  };
+  
+    
     return (
         <body style={{overflow:"hidden"}}> 
         <div className="sign">
